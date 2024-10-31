@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shoe Customizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+  <div class="w-full max-w-6xl mx-auto">
+    <div class="grid grid-cols-2 gap-8">
+      <!-- Colonna sinistra -->
+      <div class="space-y-8">
+        <!-- Preview Section -->
+        <div class="sticky top-8">
+          <div class="flex items-center justify-center h-48 border rounded-lg bg-gray-50">
+            <span id="preview" class="text-3xl font-medium text-black">
+              Preview scarpa
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonna destra -->
+      <div class="space-y-4 p-6 bg-white rounded-lg shadow-sm">
+        <!-- Header -->
+        <div>
+          <h2 class="text-2xl font-semibold">Simona</h2>
+          <p class="text-xl font-semibold">110€</p>
+          <p class="text-gray-600">Scarpe aperta con tacco basso</p>
+        </div>
+      
+        <div class="space-y-8">
+          <!-- Product Features -->
+          <div class="space-y-2">
+            <ul class="list-disc list-inside space-y-1 text-gray-700">
+              <li>Tacco comfort: altezza 3,5cm; forma quadrata</li>
+              <li>Fascia superiore di larghezza ampia</li>
+              <li>Solette integrate personalizzabili</li>
+            </ul>
+          </div>
+
+          <!-- Color Selection -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-medium">Colore</h3>
+            <div class="flex gap-8" id="color-options"></div>
+          </div>
+
+          <!-- Size Selection -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-medium">Taglia</h3>
+            
+            <select 
+              id="shoe-size" 
+              class="w-full h-10 px-3 rounded-md border border-gray-300 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <option value="">Seleziona la taglia della scarpa</option>
+            </select>
+
+            <div class="space-y-4">
+              <div class="flex items-center space-x-2">
+                <input 
+                  type="checkbox" 
+                  id="different-sizes"
+                  class="w-4 h-4 rounded border-gray-300"
+                >
+                <label for="different-sizes" class="text-sm">
+                  Porti una taglia diversa in ogni piede?
+                </label>
+              </div>
+
+              <div id="different-sizes-selects" class="grid grid-cols-2 gap-4 hidden">
+                <select id="left-shoe-size" class="h-10 px-3 rounded-md border border-gray-300">
+                  <option value="">Seleziona la taglia della scarpa sinistra</option>
+                </select>
+
+                <select id="right-shoe-size" class="h-10 px-3 rounded-md border border-gray-300">
+                  <option value="">Seleziona la taglia della scarpa destra</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Insole Height Selection -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-medium">Altezza della soletta</h3>
+            
+            <select 
+              id="insole-height" 
+              class="w-full h-10 px-3 rounded-md border border-gray-300 mb-4 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <option value="">Seleziona l'altezza della soletta</option>
+              <option value="0">Piana</option>
+              <option value="1">Bassa</option>
+              <option value="2">Media</option>
+              <option value="3">Alta</option>
+            </select>
+
+            <div class="flex items-center space-x-2 mb-4">
+              <input 
+                type="checkbox" 
+                id="different-insoles"
+                class="w-4 h-4 rounded border-gray-300"
+              >
+              <label for="different-insoles" class="text-sm">
+                Porti una soletta diversa in ogni piede?
+              </label>
+            </div>
+            
+            <div id="insole-tabs" class="border rounded-lg hidden">
+              <!-- Tabs -->
+              <div class="grid grid-cols-2 border-b">
+                <button 
+                  id="tab-left" 
+                  class="p-4 text-lg font-medium text-center bg-gray-200"
+                  data-tab="left"
+                >
+                  Piede sinistro
+                </button>
+                <button 
+                  id="tab-right" 
+                  class="p-4 text-lg font-medium text-center"
+                  data-tab="right"
+                >
+                  Piede destro
+                </button>
+              </div>
+              
+              <!-- Tab Contents -->
+              <div class="p-6 bg-gray-200">
+                <div id="tab-content-left" class="grid grid-cols-1 gap-3">
+                  <!-- Will be populated by JS -->
+                </div>
+                <div id="tab-content-right" class="grid grid-cols-1 gap-3 hidden">
+                  <!-- Will be populated by JS -->
+                </div>
+              </div>
+            </div>
+
+            <a href="#" class="block text-sm text-blue-600 underline mt-2">
+              Non sai che taglia di soletta fa per te? Scoprilo qui!
+            </a>
+
+            <!-- Success Alert - spostato qui -->
+            <div id="success-alert" class="hidden mt-4 p-4 bg-green-50 border border-green-200 rounded-md">
+              <div class="flex items-center">
+                <svg class="h-4 w-4 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="ml-2 text-green-600">
+                  Prodotto aggiunto al carrello con successo!
+                </span>
+              </div>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <button 
+              id="add-to-cart"
+              disabled
+              class="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-md disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              Aggiungi al carrello
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aggiungi questo div alla fine del body, prima dello script -->
+  <div id="measurement-dialog" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium">Misurazione arcata piede</h3>
+        <button id="close-dialog" class="text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-600">Placeholder misurazione arcata piede</p>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const colors = [
+      { id: 'nero', label: 'Nero', class: 'bg-black', textClass: 'text-black' },
+      { id: 'bianco', label: 'Bianco', class: 'bg-gray-100', textClass: 'text-gray-100' },
+      { id: 'blu-petrolio', label: 'Blu petrolio', class: 'bg-cyan-900', textClass: 'text-cyan-900' },
+      { id: 'verde-salvia', label: 'Verde salvia', class: 'bg-green-700', textClass: 'text-green-700' },
+      { id: 'beige-scamosciato', label: 'Beige scamosciato', class: 'bg-amber-200', textClass: 'text-amber-200' }
+    ];
+
+    const insoleHeights = [
+      { value: '0', label: '0 - Piana' },
+      { value: '1', label: '1 - Bassa' },
+      { value: '2', label: '2 - Media' },
+      { value: '3', label: '3 - Alta' }
+    ];
+
+    const sizes = [35, 36, 37, 38, 39, 40, 41, 42];
+
+    // State
+    let state = {
+      selectedColor: 'nero',
+      differentSizes: false,
+      shoeSize: '',
+      leftShoeSize: '',
+      rightShoeSize: '',
+      leftInsoleHeight: '',
+      rightInsoleHeight: '',
+      activeTab: 'left',
+      differentInsoles: false,
+      insoleHeight: '',
+      previousSingleInsoleHeight: '',
+      hasEverSelectedDoubleInsoles: false,
+    };
+
+    // DOM Elements
+    const preview = document.getElementById('preview');
+    const colorOptions = document.getElementById('color-options');
+    const shoeSizeSelect = document.getElementById('shoe-size');
+    const differentSizesCheckbox = document.getElementById('different-sizes');
+    const differentSizesSelects = document.getElementById('different-sizes-selects');
+    const leftShoeSizeSelect = document.getElementById('left-shoe-size');
+    const rightShoeSizeSelect = document.getElementById('right-shoe-size');
+    const tabLeft = document.getElementById('tab-left');
+    const tabRight = document.getElementById('tab-right');
+    const tabContentLeft = document.getElementById('tab-content-left');
+    const tabContentRight = document.getElementById('tab-content-right');
+    const addToCartButton = document.getElementById('add-to-cart');
+    const successAlert = document.getElementById('success-alert');
+    const differentInsolesCheckbox = document.getElementById('different-insoles');
+    const insoleHeightSelect = document.getElementById('insole-height');
+    const insoleTabs = document.getElementById('insole-tabs');
+    const measurementLink = document.querySelector('a[href="#"]');
+    const measurementDialog = document.getElementById('measurement-dialog');
+    const closeDialog = document.getElementById('close-dialog');
+
+    // Initialize color options
+    colors.forEach(color => {
+      const colorButton = document.createElement('div');
+      colorButton.className = 'flex flex-col items-center gap-2';
+      colorButton.innerHTML = `
+        <button
+          data-color="${color.id}"
+          class="w-12 h-12 rounded-full ${color.class} ring-1 ring-gray-300"
+          aria-label="${color.label}"
+        ></button>
+        <span class="text-sm text-center">${color.label}</span>
+      `;
+      colorOptions.appendChild(colorButton);
+    });
+
+    // Initialize size options
+    const sizesHtml = sizes.map(size => `
+      <option value="${size}">${size}</option>
+    `).join('');
+    shoeSizeSelect.innerHTML += sizesHtml;
+    leftShoeSizeSelect.innerHTML += sizesHtml;
+    rightShoeSizeSelect.innerHTML += sizesHtml;
+
+    // Initialize insole options
+    function createInsoleButtons(container, side) {
+      container.innerHTML = insoleHeights.map(height => `
+        <button
+          data-value="${height.value}"
+          data-side="${side}"
+          class="border p-3 text-center rounded-md transition-all bg-white hover:border-blue-200"
+        >
+          ${height.label}
+        </button>
+      `).join('');
+    }
+
+    createInsoleButtons(tabContentLeft, 'left');
+    createInsoleButtons(tabContentRight, 'right');
+
+    // Event Handlers
+    colorOptions.addEventListener('click', (e) => {
+      const colorButton = e.target.closest('button');
+      if (!colorButton) return;
+
+      const color = colorButton.dataset.color;
+      state.selectedColor = color;
+
+      // Update selected state
+      colorOptions.querySelectorAll('button').forEach(btn => {
+        btn.className = `w-12 h-12 rounded-full ${colors.find(c => c.id === btn.dataset.color).class} ${
+          btn.dataset.color === color 
+            ? 'ring-2 ring-offset-2 ring-blue-500' 
+            : 'ring-1 ring-gray-300'
+        }`;
+      });
+
+      // Update preview color
+      preview.className = `text-3xl font-medium ${colors.find(c => c.id === color).textClass}`;
+    });
+
+    differentSizesCheckbox.addEventListener('change', (e) => {
+      state.differentSizes = e.target.checked;
+      shoeSizeSelect.disabled = state.differentSizes;
+      differentSizesSelects.classList.toggle('hidden', !state.differentSizes);
+      validateForm();
+    });
+
+    [shoeSizeSelect, leftShoeSizeSelect, rightShoeSizeSelect].forEach(select => {
+      select.addEventListener('change', (e) => {
+        const { id, value } = e.target;
+        switch(id) {
+          case 'shoe-size':
+            state.shoeSize = value;
+            break;
+          case 'left-shoe-size':
+            state.leftShoeSize = value;
+            break;
+          case 'right-shoe-size':
+            state.rightShoeSize = value;
+            break;
+        }
+        validateForm();
+      });
+    });
+
+    // Tab handling
+    [tabLeft, tabRight].forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const side = e.target.dataset.tab;
+        state.activeTab = side;
+        
+        // Aggiorna gli stili dei tab usando bg-gray-200 invece di bg-white
+        tabLeft.classList.toggle('bg-gray-200', side === 'left');
+        tabRight.classList.toggle('bg-gray-200', side === 'right');
+        
+        // Mostra/nascondi contenuto
+        tabContentLeft.classList.toggle('hidden', side !== 'left');
+        tabContentRight.classList.toggle('hidden', side !== 'right');
+      });
+    });
+
+    // Insole selection
+    [tabContentLeft, tabContentRight].forEach(container => {
+      container.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (!button) return;
+
+        const { value, side } = button.dataset;
+        if (side === 'left') {
+          state.leftInsoleHeight = value;
+        } else {
+          state.rightInsoleHeight = value;
+        }
+
+        // Update selected state
+        container.querySelectorAll('button').forEach(btn => {
+          btn.className = `border p-3 text-center rounded-md transition-all ${
+            btn.dataset.value === value
+              ? 'border-2 border-blue-500 bg-blue-50'
+              : 'bg-white hover:border-blue-200'
+          }`;
+        });
+
+        validateForm();
+      });
+    });
+
+    differentInsolesCheckbox.addEventListener('change', (e) => {
+      state.differentInsoles = e.target.checked;
+      insoleHeightSelect.disabled = state.differentInsoles;
+      insoleTabs.classList.toggle('hidden', !state.differentInsoles);
+      
+      if (state.differentInsoles) {
+        state.previousSingleInsoleHeight = state.insoleHeight;
+        
+        if (!state.hasEverSelectedDoubleInsoles) {
+          state.leftInsoleHeight = '';
+          state.rightInsoleHeight = '';
+          
+          tabContentLeft.querySelectorAll('button').forEach(btn => {
+            btn.className = 'border p-3 text-center rounded-md transition-all bg-white hover:border-blue-200';
+          });
+          
+          tabContentRight.querySelectorAll('button').forEach(btn => {
+            btn.className = 'border p-3 text-center rounded-md transition-all bg-white hover:border-blue-200';
+          });
+          
+          state.hasEverSelectedDoubleInsoles = true;
+        }
+        
+        state.activeTab = 'left';
+        tabLeft.classList.add('bg-gray-200');
+        tabRight.classList.remove('bg-gray-200');
+        tabContentLeft.classList.remove('hidden');
+        tabContentRight.classList.add('hidden');
+      } else {
+        if (state.previousSingleInsoleHeight) {
+          state.insoleHeight = state.previousSingleInsoleHeight;
+          insoleHeightSelect.value = state.previousSingleInsoleHeight;
+        }
+      }
+      
+      validateForm();
+    });
+
+    insoleHeightSelect.addEventListener('change', (e) => {
+      state.insoleHeight = e.target.value;
+      state.previousSingleInsoleHeight = e.target.value;
+      validateForm();
+    });
+
+    function validateForm() {
+      const isValid = state.differentInsoles
+        ? state.leftInsoleHeight && state.rightInsoleHeight
+        : state.insoleHeight;
+
+      const hasSizeSelected = state.differentSizes
+        ? state.leftShoeSize && state.rightShoeSize
+        : state.shoeSize;
+
+      addToCartButton.disabled = !(isValid && hasSizeSelected);
+    }
+
+    addToCartButton.addEventListener('click', async () => {
+      addToCartButton.disabled = true;
+      addToCartButton.innerHTML = `
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          Aggiungendo al carrello...
+        </div>
+      `;
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      console.log('Adding to cart:', {
+        color: state.selectedColor,
+        size: state.differentSizes 
+          ? { left: state.leftShoeSize, right: state.rightShoeSize }
+          : state.shoeSize,
+        differentSizes: state.differentSizes,
+        leftInsoleHeight: state.leftInsoleHeight,
+        rightInsoleHeight: state.rightInsoleHeight
+      });
+
+      // Show success message
+      successAlert.classList.remove('hidden');
+      addToCartButton.innerHTML = 'Aggiungi al carrello';
+      
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        successAlert.classList.add('hidden');
+        addToCartButton.disabled = false;
+      }, 3000);
+    });
+
+    // Initial validation
+    validateForm();
+
+    measurementLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      measurementDialog.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // Previene lo scroll del body
+    });
+
+    closeDialog.addEventListener('click', () => {
+      measurementDialog.classList.add('hidden');
+      document.body.style.overflow = ''; // Ripristina lo scroll del body
+    });
+
+    // Chiudi il dialog cliccando fuori
+    measurementDialog.addEventListener('click', (e) => {
+      if (e.target === measurementDialog) {
+        measurementDialog.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Chiudi il dialog con il tasto ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !measurementDialog.classList.contains('hidden')) {
+        measurementDialog.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+</body>
+</html>
