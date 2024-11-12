@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indice Prototipi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+            /* Sfondo a puntini */
+            background-color: #ffffff;
+            background-image: radial-gradient(#ccc 0.5px, transparent 0.5px);
+            background-size: 15px 15px;
+            background-position: -2px -2px;
+        }
+        
+        /* Contenitore principale con sfondo bianco semi-trasparente */
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        /* il margin si applica solo dal secondo h2 in poi */
+        h2:nth-of-type(1) {
+            margin-top: 0;
+        }
+        h2 {
+            /*border-bottom: 2px solid #eee;*/
+            /*padding-bottom: 10px;*/
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* il paragrafo sta più vicino all'h2 che all'ul */
+        p {
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prototipi</h1>
+
+    <h2>Pagina Prodotto di Monica Royo </h2>
+    <p>
+        Classe 2 corso UX/UI Boolean
+    </p>
+    <ul>
+        <li><a href="pagina-prodotto-monica-royo/v1.html">v1</a></li>
+        <li><a href="pagina-prodotto-monica-royo/v2.html">v2</a></li>
+    </ul>
+
+    <h2>Lezioni composte da slides</h2>
+    <p>Come avere tanti carousel manuali. Componente utile per un corso online</p>
+    <ul>
+        <li><a href="lesson-slider/v4.html">v4</a></li>
+        <li><a href="lesson-slider/v5.html">v5</a></li>
+        <li><a href="lesson-slider/v6.html">v6</a></li>
+        <li><a href="lesson-slider/v7.html">v7</a></li>
+    </ul>
+    </div>
+</body>
+</html>
