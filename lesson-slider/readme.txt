@@ -10,3 +10,5 @@ ho eliminato il bottone GO TO NEXT LESSON
 // in v7
 ho ingrandito tutto il layout
 
+// in sketchplanations
+ho fatto questo prototipo per il sito https://sketchplanations.com/

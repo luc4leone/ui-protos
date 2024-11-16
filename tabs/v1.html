@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: monospace;
+    }
+
+    body {
+      padding: 20px;
+      background: #f0f0f0;
+    }
+
+    .container {
+      position: relative;
+      min-height: 400px;
+      background: white;
+    }
+
+    /* Bordi del contenitore creati separatamente per poter controllare il colore */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px solid #000;
+      pointer-events: none;
+    }
+
+    /* Porzione di bordo bianca sotto il tab attivo */
+    .white-border {
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 122px; /* Larghezza del tab intro + 2px per i bordi */
+      height: 1px;
+      background: white;
+      z-index: 2;
+    }
+
+    .nav-items {
+      position: absolute;
+      display: flex;
+      gap: 2px;
+      top: -28px;
+      left: -1px;
+    }
+
+    .nav-item {
+      padding: 4px 20px;
+      background: #f0f0f0;
+      cursor: pointer;
+      border: 1px solid #000;
+      border-bottom: none;
+    }
+
+    #intro {
+      width: 120px;
+      text-align: center;
+    }
+
+    .content {
+      padding: 40px;
+      position: relative;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .section-content {
+      color: #666;
+    }
+
+    .nav-item.active {
+      background: white;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="white-border"></div>
+    <div class="nav-items">
+      <div id="intro" class="nav-item active">intro</div>
+      <div id="chi-sono" class="nav-item">chi sono</div>
+      <div id="pagamenti" class="nav-item">pagamenti</div>
+    </div>
+    
+    <div class="content">
+      <div class="section">
+        <div class="section-title">Titolo sezione 1</div>
+        <div class="section-content">contenuto sezione 1</div>
+      </div>
+      <div class="section">
+        <div class="section-title">Titolo sezione 2</div>
+        <div class="section-content">contenuto sezione 2</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+    const whiteBorder = document.querySelector('.white-border');
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
+        
+        // Aggiorna la posizione del bordo bianco
+        const rect = item.getBoundingClientRect();
+        const containerRect = document.querySelector('.container').getBoundingClientRect();
+        whiteBorder.style.left = (rect.left - containerRect.left - 1) + 'px';
+        whiteBorder.style.width = (rect.width + 2) + 'px';
+      });
+    });
+  </script>
+</body>
+</html>

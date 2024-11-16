@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Descrizione della tua pagina con tabs">
+  <meta name="keywords" content="tabs, esempio, responsive">
+  <meta name="author" content="Il tuo nome">
+  <title>Responsive Tabs Example</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      /*background-color: #f5f5f5;*/
+    }
+    .tabs {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tab-nav li {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px 4px 0 0;
+
+      margin-bottom: -1px;
+      background: #f5f5f5;
+    }
+
+    .tab-nav li.active {
+      background: white;
+      border-color: #ccc;
+      border-bottom-color: white;
+      z-index: 1;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-top: none;
+      border-radius: 0 4px 4px 4px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @media screen and (max-width: 400px) {
+      .tab-nav {
+        display: none; /* Nascondiamo i tabs */
+      }
+      
+      .tab-content {
+        display: block !important; /* Mostriamo tutti i contenuti */
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 15px;
+      }
+      
+      .tabs {
+        padding: 10px;
+      }
+      
+      /* Opzionale: aggiungiamo un titolo per ogni sezione */
+      .tab-content::before {
+        content: attr(data-title);
+        display: block;
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="tabs">
+    <!-- Tab Navigation -->
+    <ul class="tab-nav">
+      <li class="active" data-tab="tab1" data-title="Tab 1">Tab 1</li>
+      <li data-tab="tab2" data-title="Tab 2">Tab 2</li>
+      <li data-tab="tab3" data-title="Tab 3">Tab 3</li>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content active" id="tab1" data-title="Tab 1">
+      <h2>Content 1</h2>
+      <p>This is the content of tab 1</p>
+    </div>
+
+    <div class="tab-content" id="tab2" data-title="Tab 2">
+      <h2>Content 2</h2>
+      <p>This is the content of tab 2</p>
+    </div>
+
+    <div class="tab-content" id="tab3" data-title="Tab 3">
+      <h2>Content 3</h2>
+      <p>This is the content of tab 3</p>
+    </div>
+  </div>
+
+  <script>
+    // Seleziona tutti i tab e i contenuti
+    const tabs = document.querySelectorAll('.tab-nav li');
+    const contents = document.querySelectorAll('.tab-content');
+
+    // Aggiungi event listener a ogni tab
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Rimuovi la classe active da tutti i tab
+        tabs.forEach(t => t.classList.remove('active'));
+        // Aggiungi la classe active al tab cliccato
+        tab.classList.add('active');
+
+        // Nascondi tutti i contenuti
+        contents.forEach(content => content.classList.remove('active'));
+        // Mostra il contenuto corrispondente
+        const tabId = tab.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

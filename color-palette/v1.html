@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --color-background: white;
+            --color-text: #030507;
+            --color-text-secondary: #666;
+            --color-border: #E5E7EB;
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+        }
+        .card {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 24px;
+            background: var(--color-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .color-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .color-sample {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .color-info {
+            flex-grow: 1;
+        }
+
+        .color-name {
+            font-weight: 500;
+            margin: 0 0 4px 0;
+        }
+
+        .color-hex {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            margin: 0 0 4px 0;
+        }
+
+        .color-usage {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="colorPalette" class="card"></div>
+
+    <script>
+        const colors = [
+            { name: 'Viola/Blu Chiaro', hex: '#8A8DFF', usage: 'Icone principali e player' },
+            { name: 'Rosa Pallido', hex: '#FFE4E1', usage: 'Cerchi con lettere' },
+            { name: 'Nero', hex: '#000000', usage: 'Icone principali' },
+            { name: 'Rosso/Arancione', hex: '#FF4500', usage: 'Punto di notifica' },
+            { name: 'Bianco', hex: '#FFFFFF', usage: 'Sfondo' }
+        ];
+
+        function createColorPalette() {
+            const container = document.getElementById('colorPalette');
+            
+            colors.forEach(color => {
+                const colorElement = document.createElement('div');
+                colorElement.className = 'color-container';
+                
+                const colorSample = document.createElement('div');
+                colorSample.className = 'color-sample';
+                colorSample.style.backgroundColor = color.hex;
+                if (color.hex === '#FFFFFF') {
+                    colorSample.style.border = '1px solid #E5E7EB';
+                }
+                
+                const colorInfo = document.createElement('div');
+                colorInfo.className = 'color-info';
+                
+                const colorName = document.createElement('h3');
+                colorName.className = 'color-name';
+                colorName.textContent = color.name;
+                
+                const colorHex = document.createElement('p');
+                colorHex.className = 'color-hex';
+                colorHex.textContent = color.hex;
+                
+                const colorUsage = document.createElement('p');
+                colorUsage.className = 'color-usage';
+                colorUsage.textContent = color.usage;
+                
+                colorInfo.appendChild(colorName);
+                colorInfo.appendChild(colorHex);
+                colorInfo.appendChild(colorUsage);
+                
+                colorElement.appendChild(colorSample);
+                colorElement.appendChild(colorInfo);
+                
+                container.appendChild(colorElement);
+            });
+        }
+
+        // Inizializza la palette quando il documento è caricato
+        document.addEventListener('DOMContentLoaded', createColorPalette);
+    </script>
+</body>
+</html>
+
