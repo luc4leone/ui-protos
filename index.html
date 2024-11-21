@@ -15,6 +15,7 @@
             background-image: radial-gradient(#ccc 0.5px, transparent 0.5px);
             background-size: 15px 15px;
             background-position: -2px -2px;
+            color: #333;
         }
         
         /* Contenitore principale con sfondo bianco semi-trasparente */
@@ -23,26 +24,35 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            /* Aggiungi queste proprietà per invertire l'ordine */
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        /* Aggiungi questo stile per mantenere l'ordine interno delle sezioni */
+        .section {
+            display: flex;
+            flex-direction: column;
         }
 
         h1, h2 {
             color: #333;
         }
 
+        h2 {
+            margin-bottom: 0;
+        }
+
         /* il margin si applica solo dal secondo h2 in poi */
         h2:nth-of-type(1) {
             margin-top: 0;
         }
-        h2 {
-            /*border-bottom: 2px solid #eee;*/
-            /*padding-bottom: 10px;*/
-            margin-top: 40px;
-            margin-bottom: 10px;
-        }
-
+        
         ul {
             list-style-type: none;
             padding: 0;
+            margin-top: 0;
+            margin-bottom: 40px;
         }
 
         li {
@@ -60,54 +70,162 @@
 
         /* il paragrafo sta più vicino all'h2 che all'ul */
         p {
-            margin-top: 0;
+            margin-top: 6px;
             margin-bottom: 12px;
+        }
+
+        /* Modifica lo stile di h1 per mantenerlo in cima */
+        h1 {
+            color: #333;
+            order: 2;
+        }
+
+        .section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0;  /* mantiene lo stile esistente */
+        }
+
+        .anchor-link {
+            opacity: 0;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .section h2:hover .anchor-link {
+            opacity: 1;
+        }
+
+        :target {
+            scroll-margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-    <h1>Prototipi</h1>
+        <h1>Prototipi</h1>
 
-    <h2>Pagina Prodotto di Monica Royo </h2>
-    <p>
-        Classe 2 corso UX/UI Boolean
-    </p>
-    <ul>
-        <li><a href="pagina-prodotto-monica-royo/readme.txt">readme</a></li>
-        <li><a href="pagina-prodotto-monica-royo/v1.html">v1</a></li>
-        <li><a href="pagina-prodotto-monica-royo/v2.html">v2</a></li>
-    </ul>
+        <div class="section">
+            <h2 id="monica-royo">
+                Pagina Prodotto di Monica Royo
+                <a href="#monica-royo" class="anchor-link">🔗</a>
+            </h2>
+            <p>Classe 2 corso UX/UI Boolean</p>
+            <ul>
+                <li><a href="pagina-prodotto-monica-royo/readme.txt">README</a></li>
+                <li><a href="pagina-prodotto-monica-royo/v1.html">v1</a></li>
+                <li><a href="pagina-prodotto-monica-royo/v2.html">v2</a></li>
+            </ul>
+        </div>
 
-    <h2>Lezioni composte da slides</h2>
-    <p>Come avere tanti carousel manuali. Componente utile per un corso online</p>
-    <ul>
-        <li><a href="lesson-slider/readme.txt">readme</a></li>
-        <li><a href="lesson-slider/screenshot.html">screenshot</a></li>
-        <li><a href="lesson-slider/v4.html">v4</a></li>
-        <li><a href="lesson-slider/v5.html">v5</a></li>
-        <li><a href="lesson-slider/v6.html">v6</a></li>
-        <li><a href="lesson-slider/v7.html">v7</a></li>
-        <li><a href="lesson-slider/sketchplanations.html">sketchplanations</a></li>
-    </ul>
-    <h2>Tabs</h2>
-    <ul>
-        <li><a href="tabs/readme.txt">readme</a></li>
-        <li><a href="tabs/v1.html">v1</a></li>
-        <li><a href="tabs/v2.html">v2</a></li>
-        <li><a href="tabs/v3.html">v3</a></li>
-    </ul>
-    <h2>Color palette</h2>
-    <ul>
-        <li><a href="color-palette/readme.txt">readme</a></li>
-        <li><a href="color-palette/screenshot.html">screenshot</a></li>
-        <li><a href="color-palette/v1.html">v1</a></li>
-    </ul>
-    <h2>Hatched</h2>
-    <ul>
-        <li><a href="hatched/readme.txt">readme</a></li>
-        <li><a href="hatched/v1.html">v1</a></li>
-    </ul>
+        <div class="section">
+            <h2 id="lesson-slider">
+                Lezioni composte da slides
+                <a href="#lesson-slider" class="anchor-link">🔗</a>
+            </h2>
+            <p>Come avere tanti carousel manuali. Componente utile per un corso online</p>
+            <ul>
+                <li><a href="lesson-slider/readme.txt">README</a></li>
+                <li><a href="lesson-slider/screenshot.html">screenshot</a></li>
+                <li><a href="lesson-slider/v4.html">v4</a></li>
+                <li><a href="lesson-slider/v5.html">v5</a></li>
+                <li><a href="lesson-slider/v6.html">v6</a></li>
+                <li><a href="lesson-slider/v7.html">v7</a></li>
+                <li><a href="lesson-slider/sketchplanations.html">sketchplanations</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 id="tabs">
+                Tabs
+                <a href="#tabs" class="anchor-link">🔗</a>
+            </h2>
+            <p>Classici tabs a la Krug</p>
+            <ul>
+                <li><a href="tabs/readme.txt">README</a></li>
+                <li><a href="tabs/v1.html">v1</a></li>
+                <li><a href="tabs/v2.html">v2</a></li>
+                <li><a href="tabs/v3.html">v3</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 id="color-palette">
+                Color palette
+                <a href="#color-palette" class="anchor-link">🔗</a>
+            </h2>
+            <p>Estrazione di un palette di colori da un'immagine con Claude</p>
+            <ul>
+                <li><a href="color-palette/readme.txt">README</a></li>
+                <li><a href="color-palette/screenshot.html">screenshot</a></li>
+                <li><a href="color-palette/v1.html">v1</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 id="hatched">
+                Hatched
+                <a href="#hatched" class="anchor-link">🔗</a>
+            </h2>
+            <p>Riproduco stile hatching con CSS</p>
+            <ul>
+                <li><a href="hatched/readme.txt">README</a></li>
+                <li><a href="hatched/v1.html">v1</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 id="gerarchia">
+                Crea Gerarchia
+                <a href="#gerarchia" class="anchor-link">🔗</a>
+            </h2>
+            <p>Componente che permette di creare una gerarchia in uno stabilimento</p>
+            <ul>
+                <li><a href="gerarchia-analytics/readme.txt">README</a></li>
+                <li><a href="gerarchia-analytics/wireframe.html">sketch / wireframe</a></li>
+                <li><a href="gerarchia-analytics/v5.html">v5</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 id="coffee">
+                Macchina per fare il caffè
+                <a href="#coffee" class="anchor-link">🔗</a>
+            </h2>
+            <p>Progetto per Egro Rancilio</p>
+            <ul><li><a href="https://luc4leone.github.io/coffee-proto/home4.html">v1</a></li></ul>
+        </div>
+
+        <div class="section">
+            <h2 id="buono">
+                Buono sconto
+                <a href="#buono" class="anchor-link">🔗</a>
+            </h2>
+            <p>Progetto Glowal</p>
+            <ul><li><a href="https://luc4leone.github.io/glw-gift/">v1</a></li></ul>
+        </div>
+
+        <div class="section">
+            <h2 id="firefox">
+                Firefox dev tool
+                <a href="#firefox" class="anchor-link">🔗</a>
+            </h2>
+            <p><a href="https://github.com/firefox-devtools/ux/issues/106">Mio contributo</a> ai Dev Tool del browser Firefox</p>
+            <ul>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/index.html">v1</a></li>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/anywhere.html">v2</a></li>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/anywhere-2.html">v3</a></li>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/between-lines-2.html">v4</a></li>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/between-lines.html">v5</a></li>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/between-lines-2.html">v6</a></li>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/lines.html">v7</a></li>
+                <li><a href="https://luc4leone.github.io/firefox-ux-issue106/lines-flo.html">v8</a></li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
