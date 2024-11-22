@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Settings</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 40px;
+        }
+
+        .checkbox-wrapper {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .email-input-wrapper {
+            margin: 12px 0;
+            display: none;
+        }
+
+        .email-input-wrapper.visible {
+            display: block;
+        }
+
+        .email-input-wrapper label {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .email-input-wrapper input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Stili per l'icona info e tooltip */
+        .label-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .info-icon {
+            position: relative;
+            color: #666;
+            cursor: help;
+            font-size: 14px;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #666;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            transform: translateY(-3px);
+        }
+
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+            left: 24px;
+            top: -4px;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 200px;
+            font-style: normal;
+            z-index: 1;
+        }
+
+        .info-icon:hover .tooltip {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkbox-wrapper">
+        <input type="checkbox" id="usa-mail-account" checked>
+        <label for="usa-mail-account">usa mail dell'account</label>
+    </div>
+
+    <div class="email-input-wrapper" id="email-wrapper">
+        <div class="label-wrapper">
+            <label for="email">email</label>
+            <span class="info-icon">i
+                <span class="tooltip">useremo la tua email solo per informarti sull'andamento della spedizione</span>
+            </span>
+        </div>
+        <input type="email" id="email" name="email">
+    </div>
+
+    <div class="checkbox-wrapper">
+        <input type="checkbox" id="newsletter">
+        <label for="newsletter">
+            iscriviti alla newsletter. 
+            <a href="#" onclick="event.preventDefault()">info privacy</a>
+        </label>
+    </div>
+
+    <script>
+        const usaMailCheckbox = document.getElementById('usa-mail-account');
+        const emailWrapper = document.getElementById('email-wrapper');
+
+        usaMailCheckbox.addEventListener('change', function() {
+            if (!this.checked) {
+                emailWrapper.classList.add('visible');
+            } else {
+                emailWrapper.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
