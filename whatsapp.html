@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #e5ddd5;
+        }
+        
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .chat-header {
+            background: #075e54;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .chat-body {
+            padding: 20px;
+            height: 500px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            max-width: 80%;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .message.received {
+            background: #fff;
+            float: left;
+            border: 1px solid #ddd;
+        }
+        
+        .message.sent {
+            background: #dcf8c6;
+            float: right;
+        }
+        
+        .message:after {
+            content: '';
+            clear: both;
+            display: table;
+        }
+        
+        .time {
+            font-size: 0.7em;
+            color: #999;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .typing {
+            color: #999;
+            padding: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h3>Luca MIT PhD</h3>
+        </div>
+        <div class="chat-body" id="chat">
+        </div>
+        <div class="typing" id="typing">
+            Luca sta scrivendo...
+        </div>
+    </div>
+
+    <script>
+        const conversation = [
+            {
+                sender: "Marco",
+                text: "Ehi Luca, ho sentito parlare del tuo articolo sulla progettazione del software. Di che si tratta?",
+                delay: 0
+            },
+            {
+                sender: "Luca",
+                text: "Sai quando devi prenotare un volo e passi mezz'ora a cliccare menu a tendina e selezionare date? 😅",
+                delay: 2000
+            },
+            {
+                sender: "Marco", 
+                text: "Oh sì, è super frustrante! 😫",
+                delay: 4000
+            },
+            {
+                sender: "Luca",
+                text: "Ecco, il punto è proprio questo. Stiamo progettando il software nel modo sbagliato. Il software dovrebbe essere come un cameriere attento che anticipa i tuoi bisogni.",
+                delay: 6000
+            },
+            {
+                sender: "Marco",
+                text: "In che senso? 🤔",
+                delay: 8000
+            },
+            {
+                sender: "Luca",
+                text: "Pensa a questo: stai chattando con un amico sulla pizza per stasera. Il tuo telefono dovrebbe capirlo automaticamente e mostrarti una mappa con le pizzerie aperte vicino, evidenziando quelle con le recensioni migliori.",
+                delay: 10000
+            },
+            {
+                sender: "Marco",
+                text: "Wow! Come Netflix quando ti suggerisce cosa guardare? 🎬",
+                delay: 12000
+            },
+            {
+                sender: "Luca",
+                text: "Esatto! Ma possiamo fare molto di più. Nel mio articolo ho fatto un esperimento con il sistema della metropolitana...",
+                delay: 14000
+            }
+        ];
+
+        function addMessage(message, isSent) {
+            const chat = document.getElementById('chat');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+            messageDiv.innerHTML = `
+                ${message}
+                <span class="time">${new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'})}</span>
+            `;
+            chat.appendChild(messageDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typing').style.display = 'block';
+        }
+
+        function hideTyping() {
+            document.getElementById('typing').style.display = 'none';
+        }
+
+        let currentIndex = 0;
+        function playConversation() {
+            if (currentIndex >= conversation.length) return;
+            
+            const message = conversation[currentIndex];
+            
+            setTimeout(() => {
+                if (message.sender === "Luca") {
+                    showTyping();
+                    setTimeout(() => {
+                        hideTyping();
+                        addMessage(message.text, false);
+                        currentIndex++;
+                        playConversation();
+                    }, 1500);
+                } else {
+                    addMessage(message.text, true);
+                    currentIndex++;
+                    playConversation();
+                }
+            }, message.delay);
+        }
+
+        // Start the conversation
+        playConversation();
+    </script>
+</body>
+</html>

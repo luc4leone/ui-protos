@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #e5ddd5;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        
+        .chat-container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .chat-header {
+            background: #075e54;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            flex-shrink: 0;
+        }
+        
+        .chat-body {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .message {
+            max-width: 80%;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .message.received {
+            background: #fff;
+            float: left;
+            border: 1px solid #ddd;
+        }
+        
+        .message.sent {
+            background: #dcf8c6;
+            float: right;
+        }
+        
+        .message:after {
+            content: '';
+            clear: both;
+            display: table;
+        }
+        
+        .time {
+            font-size: 0.7em;
+            color: #999;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .typing {
+            color: #999;
+            padding: 10px;
+            visibility: hidden;
+            height: 36px;
+        }
+
+        .reply-button {
+            background: #075e54;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 10px;
+            display: none;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 0 0 10px 10px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .reply-button:hover {
+            background: #064c44;
+        }
+
+        .reply-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Media query per dispositivi mobili */
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+                height: 100vh;
+            }
+
+            .chat-container {
+                border-radius: 0;
+            }
+
+            .chat-header {
+                border-radius: 0;
+            }
+
+            .chat-footer {
+                border-radius: 0;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+        }
+
+        /* Fix per Safari iOS */
+        @supports (-webkit-touch-callout: none) {
+            .chat-container {
+                height: -webkit-fill-available;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h3>Luca MIT PhD</h3>
+        </div>
+        <div class="chat-body" id="chat">
+        </div>
+        <div class="typing" id="typing">
+            Luca sta scrivendo...
+        </div>
+        <div class="chat-footer">
+            <button id="replyButton" class="reply-button" disabled>Rispondi</button>
+        </div>
+    </div>
+
+    <script>
+        const conversation = [
+            {
+                sender: "Luca",
+                text: "Ciao Marco! Ho appena pubblicato il mio articolo sulla progettazione del software. Ti andrebbe di parlarne? 😊",
+                response: "Certo! Ho sentito che è molto interessante. Di che si tratta? 🤔"
+            },
+            {
+                sender: "Luca",
+                text: "Sai quando devi prenotare un volo e passi mezz'ora a cliccare menu a tendina? È frustrante, vero?",
+                response: "Oddio sì! Odio quando devo fare mille click per fare una cosa semplice 😫"
+            },
+            {
+                sender: "Luca",
+                text: "Esatto! Il punto è questo: stiamo progettando il software nel modo sbagliato. Dovrebbe essere come un cameriere attento che anticipa i tuoi bisogni.",
+                response: "Interessante... ma come fa il software a sapere cosa voglio? 🤔"
+            },
+            {
+                sender: "Luca",
+                text: "Esatto! Il punto è questo: stiamo progettando il software nel modo sbagliato. Dovrebbe essere come un cameriere attento che anticipa i tuoi bisogni.",
+                response: "Interessante... ma come fa il software a sapere cosa voglio? 🤔"
+            }
+            // Aggiungi altri messaggi qui
+        ];
+
+        let currentIndex = 0;
+        const replyButton = document.getElementById('replyButton');
+
+        function addMessage(message, isSent) {
+            const chat = document.getElementById('chat');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+            messageDiv.innerHTML = `
+                ${message}
+                <span class="time">${new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'})}</span>
+            `;
+            chat.appendChild(messageDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typing').style.visibility = 'visible';
+        }
+
+        function hideTyping() {
+            document.getElementById('typing').style.visibility = 'hidden';
+        }
+
+        function sendLucaMessage() {
+            if (currentIndex >= conversation.length) return;
+            
+            const message = conversation[currentIndex];
+            showTyping();
+            replyButton.disabled = true;
+            
+            setTimeout(() => {
+                hideTyping();
+                addMessage(message.text, false);
+                replyButton.disabled = false;
+            }, 1500);
+        }
+
+        replyButton.addEventListener('click', () => {
+            const currentMessage = conversation[currentIndex];
+            addMessage(currentMessage.response, true);
+            currentIndex++;
+            replyButton.disabled = true;
+            
+            setTimeout(sendLucaMessage, 1000);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            replyButton.style.display = 'inline-block';
+            sendLucaMessage();
+        });
+    </script>
+</body>
+</html>
