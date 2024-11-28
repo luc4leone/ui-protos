@@ -767,10 +767,14 @@
         });
 
         // Inizializzazione
-        updateCard();
-
-        // Popola la lista all'avvio
         document.addEventListener('DOMContentLoaded', () => {
+            // Ordina alfabeticamente all'avvio
+            flashcards.sort((a, b) => a.term.localeCompare(b.term));
+            
+            // Imposta il filtro A-Z come attivo
+            document.querySelector('.filter-link').classList.add('active');
+            
+            // Aggiorna le viste
             updateList();
             updateCard();
         });
