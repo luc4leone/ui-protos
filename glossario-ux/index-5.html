@@ -80,12 +80,10 @@
 
         .controls .row-1 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 12px;
+            grid-template-columns: 1fr;
             width: 100%;
         }
-
-        
 
         button {
             font-family: 'Hind', sans-serif;
@@ -157,7 +155,7 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            font-size: 20px;
+            font-size: 1.5em;
             height: 100%;
             justify-content: center;
             padding: 24px;
@@ -166,8 +164,8 @@
         }
 
         .card-back {
-            font-size: 18px;
-            line-height: 1.4;
+            font-size: 1.35em;
+            line-height: 1.2;
             transform: rotateX(180deg);
         }
 
@@ -210,6 +208,7 @@
             display: flex;
             gap: 12px;
             justify-content: space-between;
+            line-height: 1.4;
             padding-bottom: 16px;
             padding-top: 16px;
         }
@@ -267,6 +266,7 @@
                 width: 100%;
             }
 
+
             .controls {
                 display: flex;
                 flex-direction: column;
@@ -278,7 +278,7 @@
             .controls .row-1 {
                 display: grid;
                 gap: 12px;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
             }
 
             .filters {
@@ -496,11 +496,7 @@
                 <div class="controls">
                     <div class="row-1">
                         <div class="button-container">
-                            <button onclick="flipCard()" class="secondary">gira la card</button>
-                            <span class="key-hint">tasto: spacebar</span>
-                        </div>
-                        <div class="button-container">
-                            <button onclick="shuffleCards()">mostra una card a caso</button>
+                            <button onclick="shuffleCards()">mostra la prossima</button>
                             <span class="key-hint">tasto: enter</span>
                         </div>
                     </div>
