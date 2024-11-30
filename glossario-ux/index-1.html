@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            gap: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .counter {
+            width: auto;
+            text-align: right;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 16px;
+            background: #007AFF;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        button.secondary {
+            background: #E5E5EA;
+            color: #1c1c1e;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .card {
+            width: 90%;
+            max-width: 500px;
+            height: 300px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.2s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateX(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 20px;
+        }
+
+        .card-front {
+            background: #ffffff;
+        }
+
+        .card-back {
+            background: #ffffff;
+            transform: rotateX(180deg);
+            font-size: 20px;
+            line-height: 1.4;
+        }
+
+        .importance {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #ff9500;
+            font-family: monospace;
+        }
+
+        .legend {
+            text-align: center;
+            color: #666;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .view-link {
+            color: #666;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        .view-link.active {
+            color: #007AFF;
+            border-bottom: 2px solid #007AFF;
+        }
+
+        .terms-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .terms-list li {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .two-columns {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .column {
+
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .terms-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-width: 500px;
+        }
+
+        .terms-list li {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .learn-more {
+            position: absolute;
+            bottom: 20px;
+            color: #0000ee;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .learn-more:hover {
+            text-decoration: underline;
+        }
+
+        .filters-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .filters {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 12px;
+        }
+
+        .filter-link {
+            font-size: 18px;
+            color: #0000ee;
+            text-decoration: none;
+            padding: 5px 0;
+        }
+
+        .filter-link.active {
+            font-weight: bold;
+            color: #0000ee;
+        }
+
+        /* Media query per il layout generale */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .two-columns {
+                flex-direction: column;
+                padding: 0;
+                gap: 32px;
+            }
+
+            .column {
+                width: 100%;
+            }
+
+            /* Ottimizzazione lista */
+            .terms-list {
+                -webkit-overflow-scrolling: touch;
+                width: 100%;
+            }
+
+            .terms-list li {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            /* Ottimizzazione filtri */
+            .filters {
+                margin-bottom: 0;
+
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-link {
+                padding: 8px 16px;
+            }
+
+            /* Ottimizzazione card */
+            .card {
+                height: 260px;  /* Ridotta altezza su mobile */
+                width: 100%;
+            }
+
+            .card-face {
+                font-size: 18px;
+                padding: 16px;
+            }
+
+            /* Ottimizzazione bottoni */
+            .controls {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+                padding: 0 12px;
+            }
+
+            .controls .row-1 {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .controls .row-2 {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+                padding: 16px;
+                font-size: 16px;
+            }
+
+            /* Ottimizzazione link approfondisci */
+            .learn-more {
+                padding: 12px;
+                bottom: 12px;
+            }
+
+            /* Ottimizzazione counter */
+            .counter {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+
+            .legend {
+                font-size: 14px;
+                margin: 12px 0;
+            }
+        }
+
+        /* Media query specifica per i bottoni */
+        @media (max-width: 1000px) {
+            .controls {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+                padding: 0 12px;
+            }
+
+            .controls .row-1 {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .controls .row-2 {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+                padding: 16px;
+                font-size: 16px;
+            }
+        }
+
+        /* Fix per iOS */
+        @supports (-webkit-touch-callout: none) {
+            .terms-list {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        .audio-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0;
+
+            color: #0000ee; 
+            font-size: 15px;
+        }
+
+        .audio-button:hover {
+            text-decoration: underline;
+        }
+
+        .audio-button.playing {
+            font-weight: bold;
+        }
+
+        .audio-link {
+            color: #0000ee;
+            text-decoration: none;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .audio-link:hover {
+            text-decoration: underline;
+        }
+
+        .audio-link.playing {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="two-columns">
+        <!-- Colonna sinistra -->
+        <div class="column">
+            <div class="filters-container">
+                <div class="filters">
+                    <a href="#" class="filter-link active" onclick="sortByAlphabet(event)">da A a Z</a>
+                    <a href="#" class="filter-link" onclick="sortByImportance(event)">da *** a *</a>
+                </div>
+                <p class="legend">
+                    *** = molto comune, * = poco comune
+                </p>
+            </div>
+            <ul class="terms-list">
+                <!-- Verrà popolato via JavaScript -->
+            </ul>
+        </div>
+
+        <!-- Colonna destra: flashcards -->
+        <div class="column">
+            <div class="counter">
+                <span id="current">1</span>/<span id="total">50</span>
+            </div>
+
+            <div class="card" onclick="flipCard()">
+                <div class="card-inner">
+                    <div class="card-face card-front">
+                        <a href="#" class="audio-button" onclick="event.stopPropagation(); playTerm()">audio 🔈</a>
+                        <span class="importance" id="importance"></span>
+                        <span id="term"></span>
+                        <a href="http://www.example.com" class="learn-more" target="_blank" onclick="event.stopPropagation()">approfondisci ↗️</a>
+                    </div>
+                    <div class="card-face card-back">
+                        <span id="definition"></span>
+                        <a href="http://www.example.com" target="_blank" class="learn-more" onclick="event.stopPropagation()">approfondisci ↗️</a>
+                    </div>
+                </div>
+            </div>
+
+            <p class="legend">
+                *** = molto comune, * = poco comune
+            </p>
+
+            <div class="controls">
+                <div class="row-1">
+                    <button onclick="previousCard()">⟵</button>
+                    <button onclick="flipCard()">Mostra</button>
+                    <button onclick="nextCard()">⟶</button>
+                </div>
+                <div class="row-2">
+                    <button onclick="shuffleCards()" class="secondary">A caso</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                term: "Component",
+                definition: "Parte di un'interfaccia utente",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Mode",
+                definition: "Stato di un componente",
+                importance: "*",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Wireframe",
+                definition: "Rappresentazione grafica di un'interfaccia utente",
+                importance: "**",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Bold",
+                definition: "Grassetto",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Layer",
+                definition: "Strato di un'interfaccia utente",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Background",
+                definition: "Sfondo di un'interfaccia utente",
+                importance: "**",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Consistency",
+                definition: "Coerenza visiva e funzionale",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Feedback",
+                definition: "Risposta di un sistema",
+                importance: "*",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Error",
+                definition: "Errore di un sistema",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Device",
+                definition: "Dispositivo di un sistema",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Accessibility",
+                definition: "Accessibilità di un sistema",
+                importance: "**",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Tooltip",
+                definition: "Suggerimento di un sistema attraverso piccolo popup",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Low fidelity",
+                definition: "Bassa fedeltà di un prototipo / wireframe / sketch",
+                importance: "***",
+                url: "https://www.example.com"
+            },
+            {
+                term: "High fidelity",
+                definition: "Alta fedeltà di un prototipo / wireframe / sketch",
+                importance: "**",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Interaction",
+                definition: "Interazione tra un utente e un sistema attraverso un'interfaccia utente",
+                importance: "**",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Popup",
+                definition: "",
+                importance: "***",
+                url: "https://www.example.com"
+            }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        let currentUtterance = null;
+
+        function updateCard() {
+            const card = flashcards[currentIndex];
+            document.getElementById('term').textContent = `${card.term} ${card.importance}`;
+            document.getElementById('definition').textContent = card.definition;
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('total').textContent = flashcards.length;
+            
+            // Aggiorna l'URL del link approfondisci
+            document.querySelectorAll('.card .learn-more').forEach(link => {
+                link.href = card.url;
+            });
+            
+            document.querySelector('.card').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            document.querySelector('.card').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % flashcards.length;
+            
+            // Disabilita temporaneamente la transizione
+            const cardInner = document.querySelector('.card-inner');
+            cardInner.style.transition = 'none';
+            
+            updateCard();
+            
+            // Assicurati che la card non sia animata quando si passa alla prossima
+            if (isFlipped) {
+                isFlipped = false;
+                document.querySelector('.card').classList.remove('flipped');
+            }
+            
+            // Forza il reflow per applicare immediatamente lo stato senza transizione
+            cardInner.offsetHeight; // trigger reflow
+            
+            // Riabilita la transizione
+            cardInner.style.transition = '';
+        }
+
+        function previousCard() {
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            
+            // Disabilita temporaneamente la transizione
+            const cardInner = document.querySelector('.card-inner');
+            cardInner.style.transition = 'none';
+            
+            updateCard();
+            
+            // Assicurati che la card non sia animata quando si passa alla precedente
+            if (isFlipped) {
+                isFlipped = false;
+                document.querySelector('.card').classList.remove('flipped');
+            }
+            
+            // Forza il reflow per applicare immediatamente lo stato senza transizione
+            cardInner.offsetHeight; // trigger reflow
+            
+            // Riabilita la transizione
+            cardInner.style.transition = '';
+        }
+
+        function shuffleCards() {
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentIndex = 0;
+            updateCard();
+        }
+
+        function showFlashcards(e) {
+            e.preventDefault();
+            document.getElementById('flashcards-view').style.display = 'block';
+            document.getElementById('list-view').style.display = 'none';
+            document.querySelectorAll('.view-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function showList(e) {
+            e.preventDefault();
+            document.getElementById('flashcards-view').style.display = 'none';
+            document.getElementById('list-view').style.display = 'block';
+            document.querySelectorAll('.view-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            // Popola la lista se è vuota
+            const listContainer = document.querySelector('.terms-list');
+            if (!listContainer.children.length) {
+                flashcards.forEach(card => {
+                    const li = document.createElement('li');
+                    li.textContent = `${card.term} ${card.importance} ${card.definition}`;
+                    listContainer.appendChild(li);
+                });
+            }
+        }
+
+        function sortByAlphabet(e) {
+            e.preventDefault();
+            // Aggiorna stato attivo dei filtri
+            document.querySelectorAll('.filter-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            // Ordina array
+            flashcards.sort((a, b) => a.term.localeCompare(b.term));
+            
+            // Reset dello stato delle flashcards
+            currentIndex = 0;
+            isFlipped = false;
+            
+            // Aggiorna entrambe le viste
+            updateList();
+            updateCard();
+        }
+
+        function sortByImportance(e) {
+            e.preventDefault();
+            // Aggiorna stato attivo dei filtri
+            document.querySelectorAll('.filter-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            // Ordina array per importanza (numero di asterischi)
+            flashcards.sort((a, b) => b.importance.length - a.importance.length);
+            
+            // Reset dello stato delle flashcards
+            currentIndex = 0;
+            isFlipped = false;
+            
+            // Aggiorna entrambe le viste
+            updateList();
+            updateCard();
+        }
+
+        function updateList() {
+            const listContainer = document.querySelector('.terms-list');
+            listContainer.innerHTML = ''; // Pulisce la lista
+            
+            flashcards.forEach(card => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div><strong>${card.term} ${card.importance}</strong> ${card.definition}</div>
+                    <a href="#" class="audio-link" onclick="event.preventDefault(); playTerm('${card.term}')">audio 🔈</a>
+                `;
+                listContainer.appendChild(li);
+            });
+        }
+
+        function playTerm(term = null) {
+            // Se non viene passato un termine, usa quello della card corrente
+            const textToSpeak = term || flashcards[currentIndex].term;
+            
+            // Se c'è già una riproduzione in corso, la fermiamo
+            if (currentUtterance) {
+                window.speechSynthesis.cancel();
+                currentUtterance = null;
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    el.classList.remove('playing');
+                });
+                return;
+            }
+            
+            // Crea una nuova utterance
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            
+            // Configura le opzioni
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            
+            // Gestisci l'inizio della riproduzione
+            utterance.onstart = () => {
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    if (el.textContent.includes(textToSpeak) || (!term && el.classList.contains('audio-button'))) {
+                        el.classList.add('playing');
+                    }
+                });
+                currentUtterance = utterance;
+            };
+            
+            // Gestisci la fine della riproduzione
+            utterance.onend = () => {
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    el.classList.remove('playing');
+                });
+                currentUtterance = null;
+            };
+            
+            // Gestisci eventuali errori
+            utterance.onerror = () => {
+                console.error('Error playing term');
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    el.classList.remove('playing');
+                });
+                currentUtterance = null;
+            };
+            
+            // Riproduci
+            window.speechSynthesis.speak(utterance);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'Enter') {
+                flipCard();
+            } else if (e.code === 'ArrowRight') {
+                nextCard();
+            } else if (e.code === 'ArrowLeft') {
+                previousCard();
+            }
+        });
+
+        // Inizializzazione
+        updateCard();
+
+        // Popola la lista all'avvio
+        document.addEventListener('DOMContentLoaded', () => {
+            updateList();
+            updateCard();
+        });
+    </script>
+</body>
+</html>

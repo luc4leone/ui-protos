@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossario termini inglesi nel mondo del UX/UI design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+<head>
+    <style>
+        body {
+            font-family: 'Hind', system-ui, -apple-system, sans-serif;
+            letter-spacing: 0.01em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f4;
+            color: #16161D;
+        }
+
+
+
+        .hind-regular {
+            font-family: "Hind", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .hind-medium {
+            font-family: "Hind", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        .hind-semibold {
+            font-family: "Hind", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .hind-bold {
+            font-family: "Hind", sans-serif;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .controls .row-1 {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr;
+            gap: 12px;
+        }
+
+        .controls .row-2 {
+            width: 100%;
+        }
+
+        
+
+        button {
+            font-family: 'Hind', system-ui, -apple-system, sans-serif;
+            width: 100%;
+            letter-spacing: 0.01em; 
+            padding-top: 16px;
+            padding-bottom: 16px;
+            border: none;
+            border-radius: 16px;
+            background-color: #E2E2E9;
+            color: #16161D;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: filter 0.1s, transform 0.1s;
+            height: 56px;  /* Altezza fissa per tutti i bottoni */
+            display: flex;  /* Per centrare la SVG */
+            align-items: center;  /* Per centrare la SVG */
+            justify-content: center;  /* Per centrare la SVG */
+            box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Stile specifico per i bottoni next/previous 
+        .controls .row-1 button:first-child {
+            background: #E2E2E9;
+        }
+
+        .controls .row-1 button:last-child {
+            background: #A7A7BE;
+        }
+
+        button.secondary {
+            background-color: #C4C4D4;
+            color: #16161D;
+        }*/        
+        button:hover {
+            filter: brightness(0.95);
+        }
+
+        button:active {
+            filter: brightness(0.9);
+            box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.25);
+            transform: translateY(2px);
+        }
+
+        .card {
+            width: 90%;
+            max-width: 500px;
+            height: 300px;
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.2s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateX(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 20px;
+        }
+
+        .card-front {
+            background: #ffffff;
+        }
+
+        .card-back {
+            background: #ffffff;
+            transform: rotateX(180deg);
+            font-size: 20px;
+            line-height: 1.4;
+        }
+
+        .importance {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #ff9500;
+            font-family: monospace;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .view-link {
+            color: #666;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        .view-link.active {
+            color: #007AFF;
+            border-bottom: 2px solid #007AFF;
+        }
+
+        .terms-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .term-content {
+            flex: 1;
+        }
+
+        .terms-list li {
+            background: white;
+            padding: 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .terms-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-width: 500px;
+        }
+
+        .term-content {
+            flex: 1;
+        }
+
+        .single-column {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .learn-more {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #0000ee;
+            text-decoration: none;
+            font-size: 15px;
+            text-align: left;
+        }
+
+        .learn-more:hover {
+            text-decoration: underline;
+        }
+
+        /* Media query per il layout generale */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .single-column {
+                flex-direction: column;
+                padding: 0;
+                gap: 32px;
+            }
+
+            .section {
+                width: 100%;
+            }
+
+            /* Ottimizzazione lista */
+            .terms-list {
+                /* -webkit-overflow-scrolling: touch; */
+                width: 100%;
+            }
+
+            .terms-list li {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            /* Ottimizzazione filtri */
+            .filters {
+                margin-bottom: 0;
+
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-link {
+                padding: 8px 16px;
+            }
+
+            /* Ottimizzazione card */
+            .card {
+                height: 260px;  /* Ridotta altezza su mobile */
+                width: 100%;
+            }
+
+            .card-face {
+                font-size: 18px;
+                padding: 16px;
+            }
+
+            /* Ottimizzazione bottoni */
+            .controls {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+                padding: 0 12px;
+            }
+
+            .controls .row-1 {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+
+            .controls .row-2 {
+                width: 100%;
+            }
+
+            button {
+                padding: 24px;
+                font-size: 18px;
+            }
+
+            
+        }
+
+        /* Media query specifica per i bottoni */
+        @media (max-width: 1000px) {
+            .controls {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+                padding: 0 12px;
+            }
+
+            .controls .row-1 {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .controls .row-2 {
+                width: 100%;
+            }
+        }
+
+        /* Fix per iOS */
+        @supports (-webkit-touch-callout: none) {
+            .terms-list {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        .audio-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0;
+
+            color: #0000ee; 
+            font-size: 15px;
+        }
+
+        .audio-link {
+            color: #0000ee;
+            text-decoration: none;
+            font-size: 15px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .audio-button:hover,
+        .audio-link:hover {
+            text-decoration: underline;
+        }
+
+        .audio-button.playing,
+        .audio-link.playing {
+            font-weight: bold;
+        }
+
+        .title {
+            letter-spacing: 0.01em;
+            line-height: 1.4;
+            text-wrap: balance;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .subtitle {
+            letter-spacing: 0.01em;
+            text-wrap: balance;
+            text-align: center;
+            color: #16161D;
+            font-size: 16px;
+            margin-top: 8px;
+            margin-bottom: 0;
+            line-height: 1.4;
+        }
+
+        .checkbox-container {
+            text-align: left;
+            margin-bottom: 16px;
+            max-width: 500px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 8px;
+            cursor: pointer;
+            color: #16161D;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #f0f0f4;
+            border: 1px solid #6C6C93;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .checkbox-label input[type="checkbox"]:checked {
+            background-color: #6C6C93; /* Stesso colore dei bottoni */
+            border-color: #6C6C93;
+        }
+
+        .checkbox-label input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 0px;
+            width: 5px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .content {
+            flex: 1;
+            width: 100%;
+        }
+
+        .checkbox-label input[type="checkbox"]:focus-visible {
+            outline: 2px solid #16161D;
+            outline-offset: 2px;
+        }
+
+        .controls .row-1 button svg {
+            vertical-align: middle;
+            height: 48px;  /* Raddoppiato da 24px */
+            width: 48px;   /* Raddoppiato da 24px */
+        }
+
+        .controls .row-1 button:first-child svg {
+            margin-left: 12px;  /* Sposta la freccia sinistra verso destra */
+        }
+
+        .controls .row-1 button svg {
+            vertical-align: middle;
+            height: 48px;
+            width: 48px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header fisso -->
+    <div class="header">
+        <h2 class="title">TERMINI INGLESI nel mondo UX/UI</h2>
+        <p class="subtitle">
+            vengono usati spesso nelle conversazioni italiane
+        </p>
+
+    </div>
+
+    <!-- Contenuto dinamico -->
+    <div class="content">
+        <div class="checkbox-container">
+            <label class="checkbox-label">
+                <input type="checkbox" id="toggleFlashcards" onchange="toggleView()">
+                allenati con le flashcards
+            </label>
+        </div>
+        <div class="single-column">
+            <div class="section" id="terms-section">
+                
+                <ul class="terms-list">
+                    
+                    <!-- Verrà popolato via JavaScript -->
+                </ul>
+            </div>
+
+            <div class="section" id="flashcards-section" style="display: none;">
+                <div class="card" onclick="flipCard()">
+                    <div class="card-inner">
+                        <div class="card-face card-front">
+                            <span id="term"></span>
+                            <a href="#" class="audio-button" onclick="event.preventDefault(); event.stopPropagation(); playTerm()">audio 🔈</a>
+                            <a href="http://www.example.com" class="learn-more" target="_blank" onclick="event.stopPropagation()">approfondisci ↗️</a>
+                        </div>
+                        <div class="card-face card-back">
+                            <span id="definition"></span>
+                            <a href="http://www.example.com" target="_blank" class="learn-more" onclick="event.stopPropagation()">approfondisci ↗️</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="row-1">
+                        <button onclick="previousCard()">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px">
+                                <path d="M540-308q-8 0-14-5.5t-6-14.5v-304q0-9 6-14.5t14-5.5q2 0 14 6l145 145q5 5 7 10t2 11q0 6-2 11t-7 10L554-314q-3 3-6.5 4.5T540-308Z" transform="rotate(180 480 -480)"/>
+                            </svg>
+                        </button>
+                        <button onclick="shuffleCards()">una a caso</button>
+                        <button onclick="nextCard()">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px">
+                                <path d="M420-308q-8 0-14-5.5t-6-14.5v-304q0-9 6-14.5t14-5.5q2 0 14 6l145 145q5 5 7 10t2 11q0 6-2 11t-7 10L434-314q-3 3-6.5 4.5T420-308Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="row-2">
+                        <button onclick="flipCard()" class="secondary">gira la card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                term: "Component",
+                definition: "Parte di un'interfaccia utente",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Mode",
+                definition: "Stato di un componente",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Wireframe",
+                definition: "Rappresentazione grafica di un'interfaccia utente",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Bold",
+                definition: "Grassetto",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Layer",
+                definition: "Strato di un'interfaccia utente",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Background",
+                definition: "Sfondo di un'interfaccia utente",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Consistency",
+                definition: "Coerenza visiva e funzionale",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Feedback",
+                definition: "Risposta di un sistema",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Error",
+                definition: "Errore di un sistema",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Device",
+                definition: "Dispositivo di un sistema",
+                url: "https://www.example.com"
+            },
+            {
+                term: "accessibility",
+                definition: "Accessibilità di un sistema",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Tooltip",
+                definition: "Suggerimento di un sistema attraverso piccolo popup",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Low fidelity",
+                definition: "Bassa fedeltà di un prototipo / wireframe / sketch",
+                url: "https://www.example.com"
+            },
+            {
+                term: "High fidelity",
+                definition: "Alta fedeltà di un prototipo / wireframe / sketch",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Interaction",
+                definition: "Interazione tra un utente e un sistema attraverso un'interfaccia utente",
+                url: "https://www.example.com"
+            },
+            {
+                term: "Popup",
+                definition: "Piccola finestra che appare sopra l'interfaccia utente",
+                url: "https://www.example.com"
+            }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        let currentUtterance = null;
+
+        function updateCard() {
+            const card = flashcards[currentIndex];
+            document.getElementById('term').innerHTML = `<span class="hind-semibold">${card.term}</span>`;
+            document.getElementById('definition').innerHTML = card.definition;
+            
+            document.querySelectorAll('.card .learn-more').forEach(link => {
+                link.href = card.url;
+            });
+            
+            document.querySelector('.card').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            document.querySelector('.card').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % flashcards.length;
+            
+            // Disabilita temporaneamente la transizione
+            const cardInner = document.querySelector('.card-inner');
+            cardInner.style.transition = 'none';
+            
+            updateCard();
+            
+            // Assicurati che la card non sia animata quando si passa alla prossima
+            if (isFlipped) {
+                isFlipped = false;
+                document.querySelector('.card').classList.remove('flipped');
+            }
+            
+            // Forza il reflow per applicare immediatamente lo stato senza transizione
+            cardInner.offsetHeight; // trigger reflow
+            
+            // Riabilita la transizione
+            cardInner.style.transition = '';
+        }
+
+        function previousCard() {
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            
+            // Disabilita temporaneamente la transizione
+            const cardInner = document.querySelector('.card-inner');
+            cardInner.style.transition = 'none';
+            
+            updateCard();
+            
+            // Assicurati che la card non sia animata quando si passa alla precedente
+            if (isFlipped) {
+                isFlipped = false;
+                document.querySelector('.card').classList.remove('flipped');
+            }
+            
+            // Forza il reflow per applicare immediatamente lo stato senza transizione
+            cardInner.offsetHeight; // trigger reflow
+            
+            // Riabilita la transizione
+            cardInner.style.transition = '';
+        }
+
+        function shuffleCards() {
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentIndex = 0;
+            
+            // Disabilita temporaneamente la transizione
+            const cardInner = document.querySelector('.card-inner');
+            cardInner.style.transition = 'none';
+            
+            updateCard();
+            
+            // Assicurati che la card non sia animata quando si passa alla prossima
+            if (isFlipped) {
+                isFlipped = false;
+                document.querySelector('.card').classList.remove('flipped');
+            }
+            
+            // Forza il reflow per applicare immediatamente lo stato senza transizione
+            cardInner.offsetHeight; // trigger reflow
+            
+            // Riabilita la transizione
+            cardInner.style.transition = '';
+        }
+
+        function showFlashcards(e) {
+            e.preventDefault();
+            document.getElementById('flashcards-view').style.display = 'block';
+            document.getElementById('list-view').style.display = 'none';
+            document.querySelectorAll('.view-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function showList(e) {
+            e.preventDefault();
+            document.getElementById('flashcards-view').style.display = 'none';
+            document.getElementById('list-view').style.display = 'block';
+            document.querySelectorAll('.view-link').forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            // Popola la lista se è vuota
+            const listContainer = document.querySelector('.terms-list');
+            if (!listContainer.children.length) {
+                flashcards.forEach(card => {
+                    const li = document.createElement('li');
+                    li.textContent = `${card.term} ${card.definition}`;
+                    listContainer.appendChild(li);
+                });
+            }
+        }
+
+        function updateList() {
+            const listContainer = document.querySelector('.terms-list');
+            listContainer.innerHTML = '';
+            
+            flashcards.forEach(card => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="term-content"><strong>${card.term}</strong> - ${card.definition}</div>
+                    <a href="#" class="audio-link" onclick="event.preventDefault(); playTerm('${card.term}')">audio 🔈</a>
+                `;
+                listContainer.appendChild(li);
+            });
+        }
+
+        function playTerm(term = null) {
+            const textToSpeak = term || flashcards[currentIndex].term;
+            
+            if (currentUtterance) {
+                window.speechSynthesis.cancel();
+                currentUtterance = null;
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    el.classList.remove('playing');
+                });
+                return;
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            
+            utterance.onstart = () => {
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    const onclick = el.getAttribute('onclick') || '';
+                    if ((!term && el.classList.contains('audio-button')) || 
+                        (term && onclick.includes(`'${term}'`))) {
+                        el.classList.add('playing');
+                    }
+                });
+                currentUtterance = utterance;
+            };
+            
+            utterance.onend = () => {
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    el.classList.remove('playing');
+                });
+                currentUtterance = null;
+            };
+            
+            utterance.onerror = () => {
+                console.error('Error playing term');
+                document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
+                    el.classList.remove('playing');
+                });
+                currentUtterance = null;
+            };
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'Enter') {
+                e.preventDefault();
+                flipCard();
+            } else if (e.code === 'ArrowRight') {
+                nextCard();
+            } else if (e.code === 'ArrowLeft') {
+                previousCard();
+            } else if (e.code === 'KeyR') {
+                shuffleCards();
+            }
+        });
+
+        function toggleView() {
+            const checkbox = document.getElementById('toggleFlashcards');
+            const termsSection = document.getElementById('terms-section');
+            const flashcardsSection = document.getElementById('flashcards-section');
+            
+            if (checkbox.checked) {
+                termsSection.style.display = 'none';
+                flashcardsSection.style.display = 'flex';
+            } else {
+                termsSection.style.display = 'flex';
+                flashcardsSection.style.display = 'none';
+            }
+        }
+
+        // Modifica dell'inizializzazione
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ordina alfabeticamente all'avvio
+            flashcards.sort((a, b) => a.term.localeCompare(b.term));
+            
+            // Aggiorna le viste
+            updateList();
+            updateCard();
+            
+            // Assicurati che la vista iniziale sia corretta
+            toggleView();
+        });
+    </script>
+</body>
+</html>

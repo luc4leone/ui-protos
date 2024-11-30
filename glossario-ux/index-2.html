@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossario termini inglesi nel mondo del UX/UI design</title>
 <head>
     <style>
         body {
@@ -34,7 +37,7 @@
             padding: 16px 32px;
             border: none;
             border-radius: 16px;
-            background: #007AFF;
+            background: #2424CA;
             color: white;
             cursor: pointer;
             font-size: 18px;
@@ -100,7 +103,7 @@
         }
 
         .card-back {
-            background: #ffffff;
+            background: #eaeaea;
             transform: rotateX(180deg);
             font-size: 20px;
             line-height: 1.4;
@@ -147,32 +150,20 @@
             margin: 0 auto;
         }
 
+        .term-content {
+            flex: 1;
+        }
+
         .terms-list li {
             background: white;
-            padding: 12px;
+            padding: 16px;
             margin-bottom: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .two-columns {
-            display: flex;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .column {
-
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
             gap: 12px;
-            align-items: center;
         }
 
         .terms-list {
@@ -182,17 +173,26 @@
             max-width: 500px;
         }
 
-        .terms-list li {
-            background: white;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .term-content {
+            flex: 1;
         }
 
+        .single-column {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
         .learn-more {
             position: absolute;
             bottom: 20px;
@@ -214,7 +214,13 @@
         .filters {
             display: flex;
             gap: 40px;
+            align-items: center;
             margin-bottom: 12px;
+        }
+
+        .filters-label {
+            color: #666;
+            font-size: 14px;
         }
 
         .filter-link {
@@ -235,19 +241,19 @@
                 padding: 12px;
             }
 
-            .two-columns {
+            .single-column {
                 flex-direction: column;
                 padding: 0;
                 gap: 32px;
             }
 
-            .column {
+            .section {
                 width: 100%;
             }
 
             /* Ottimizzazione lista */
             .terms-list {
-                -webkit-overflow-scrolling: touch;
+                /* -webkit-overflow-scrolling: touch; */
                 width: 100%;
             }
 
@@ -370,36 +376,54 @@
             font-size: 15px;
         }
 
-        .audio-button:hover {
-            text-decoration: underline;
-        }
-
-        .audio-button.playing {
-            font-weight: bold;
-        }
-
         .audio-link {
             color: #0000ee;
             text-decoration: none;
             font-size: 15px;
             cursor: pointer;
+            white-space: nowrap;
         }
 
+        .audio-button:hover,
         .audio-link:hover {
             text-decoration: underline;
         }
 
+        .audio-button.playing,
         .audio-link.playing {
             font-weight: bold;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-top: -12px;
+            margin-bottom: 0;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
-    <div class="two-columns">
-        <!-- Colonna sinistra -->
-        <div class="column">
+    <h2 class="title">Glossario termini inglesi nel mondo UX/UI</h2>
+    <p class="subtitle">
+        Questi termini vengono usati abitualmente nelle conversazioni in italiano.<br>
+        *** indica un termine molto comune, * un termine poco comune
+    </p>
+
+    <div class="single-column">
+        <!-- Colonna lista -->
+        <div class="section">
             <div class="filters-container">
                 <div class="filters">
+                    <span class="filters-label">ordina per:</span>
                     <a href="#" class="filter-link active" onclick="sortByAlphabet(event)">da A a Z</a>
                     <a href="#" class="filter-link" onclick="sortByImportance(event)">da *** a *</a>
                 </div>
@@ -412,8 +436,9 @@
             </ul>
         </div>
 
-        <!-- Colonna destra: flashcards -->
-        <div class="column">
+        <!-- Colonna flashcards -->
+        <div class="section">
+            <h2 class="title">Flashcards</h2>
             <div class="counter">
                 <span id="current">1</span>/<span id="total">50</span>
             </div>
@@ -421,7 +446,7 @@
             <div class="card" onclick="flipCard()">
                 <div class="card-inner">
                     <div class="card-face card-front">
-                        <a href="#" class="audio-button" onclick="event.stopPropagation(); playTerm()">audio 🔈</a>
+                        <a href="#" class="audio-button" onclick="event.preventDefault(); event.stopPropagation(); playTerm()">audio 🔈</a>
                         <span class="importance" id="importance"></span>
                         <span id="term"></span>
                         <a href="http://www.example.com" class="learn-more" target="_blank" onclick="event.stopPropagation()">approfondisci ↗️</a>
@@ -696,7 +721,7 @@
             flashcards.forEach(card => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <div><strong>${card.term} ${card.importance}</strong> ${card.definition}</div>
+                    <div class="term-content"><strong>${card.term} ${card.importance}</strong> ${card.definition}</div>
                     <a href="#" class="audio-link" onclick="event.preventDefault(); playTerm('${card.term}')">audio 🔈</a>
                 `;
                 listContainer.appendChild(li);
@@ -704,10 +729,8 @@
         }
 
         function playTerm(term = null) {
-            // Se non viene passato un termine, usa quello della card corrente
             const textToSpeak = term || flashcards[currentIndex].term;
             
-            // Se c'è già una riproduzione in corso, la fermiamo
             if (currentUtterance) {
                 window.speechSynthesis.cancel();
                 currentUtterance = null;
@@ -717,25 +740,22 @@
                 return;
             }
             
-            // Crea una nuova utterance
             const utterance = new SpeechSynthesisUtterance(textToSpeak);
-            
-            // Configura le opzioni
             utterance.lang = 'en-US';
             utterance.rate = 0.9;
             utterance.pitch = 1;
             
-            // Gestisci l'inizio della riproduzione
             utterance.onstart = () => {
                 document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
-                    if (el.textContent.includes(textToSpeak) || (!term && el.classList.contains('audio-button'))) {
+                    const onclick = el.getAttribute('onclick') || '';
+                    if ((!term && el.classList.contains('audio-button')) || 
+                        (term && onclick.includes(`'${term}'`))) {
                         el.classList.add('playing');
                     }
                 });
                 currentUtterance = utterance;
             };
             
-            // Gestisci la fine della riproduzione
             utterance.onend = () => {
                 document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
                     el.classList.remove('playing');
@@ -743,7 +763,6 @@
                 currentUtterance = null;
             };
             
-            // Gestisci eventuali errori
             utterance.onerror = () => {
                 console.error('Error playing term');
                 document.querySelectorAll('.audio-button, .audio-link').forEach(el => {
@@ -752,7 +771,6 @@
                 currentUtterance = null;
             };
             
-            // Riproduci
             window.speechSynthesis.speak(utterance);
         }
 
