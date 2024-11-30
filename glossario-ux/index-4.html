@@ -9,7 +9,7 @@
 <head>
     <style>
         body {
-            font-family: 'Hind', system-ui, -apple-system, sans-serif;
+            font-family: 'Hind', sans-serif;
             letter-spacing: 0.01em;
             display: flex;
             flex-direction: column;
@@ -61,12 +61,13 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
+            width: 100%;
         }
 
         
 
         button {
-            font-family: 'Hind', system-ui, -apple-system, sans-serif;
+            font-family: 'Hind', sans-serif;
             width: 100%;
             letter-spacing: 0.01em; 
             padding-top: 16px;
@@ -84,21 +85,11 @@
             align-items: center;  /* Per centrare la SVG */
             justify-content: center;  /* Per centrare la SVG */
             box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+            padding-left: 24px;
+            padding-right: 24px;
         }
-
-        /* Stile specifico per i bottoni next/previous 
-        .controls .row-1 button:first-child {
-            background: #E2E2E9;
-        }
-
-        .controls .row-1 button:last-child {
-            background: #A7A7BE;
-        }
-
-        button.secondary {
-            background-color: #C4C4D4;
-            color: #16161D;
-        }*/        
+       
         button:hover {
             filter: brightness(0.95);
         }
@@ -307,8 +298,8 @@
 
             .controls .row-1 {
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 16px;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
             }
 
             .controls .row-2 {
@@ -316,14 +307,16 @@
             }
 
             button {
-                padding: 24px;
-                font-size: 18px;
+                padding-left: 16px;
+                padding-right: 16px;
+                font-size: 16px;
+                height: 48px;
             }
 
             
         }
 
-        /* Media query specifica per i bottoni */
+        /* Media query specifica per i bottoni 
         @media (max-width: 1000px) {
             .controls {
                 display: flex;
@@ -342,7 +335,7 @@
             .controls .row-2 {
                 width: 100%;
             }
-        }
+        }*/
 
         /* Fix per iOS */
         @supports (-webkit-touch-callout: none) {
@@ -371,6 +364,8 @@
             font-size: 15px;
             cursor: pointer;
             white-space: nowrap;
+            min-width: 60px;  /* Larghezza fissa per il link audio */
+            text-align: right;  /* Allinea il testo a destra */
         }
 
         .audio-button:hover,
@@ -427,6 +422,7 @@
             cursor: pointer;
             position: relative;
             transition: all 0.2s;
+            outline: none;
         }
 
         .checkbox-container input[type="checkbox"]:checked {
@@ -446,9 +442,16 @@
             transform: rotate(45deg);
         }
 
+        .checkbox-container input[type="checkbox"]:focus {
+            outline: none;
+        }
+
         .checkbox-container input[type="checkbox"]:focus-visible {
+            outline: none;
+            /*
             outline: 2px solid #16161D;
             outline-offset: 2px;
+            */
         }
 
         .checkbox-container label {
@@ -466,22 +469,19 @@
             width: 100%;
         }
 
-        .controls .row-1 button svg {
-            vertical-align: middle;
-            height: 48px;  /* Raddoppiato da 24px */
-            width: 48px;   /* Raddoppiato da 24px */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
         }
 
-        .controls .row-1 button:first-child svg {
-            margin-left: 12px;  /* Sposta la freccia sinistra verso destra */
+        .key-hint {
+            color: #6C6C93;
+            font-size: 14px;
+            opacity: 0.8;
         }
 
-        .controls .row-1 button svg {
-            vertical-align: middle;
-            height: 48px;
-            width: 48px;
-            position: absolute;
-        }
     </style>
 </head>
 <body>
@@ -497,8 +497,11 @@
     <!-- Contenuto dinamico -->
     <div class="content">
         <div class="checkbox-container">
-            <input type="checkbox" id="toggleFlashcards" onchange="toggleView()">
-            <label for="toggleFlashcards">allenati con le flashcards</label>
+            <input type="checkbox" 
+                   id="toggleFlashcards" 
+                   onchange="toggleView()"
+                   >
+            <label for="toggleFlashcards">allenati con <span id="flashcardsCount"></span> flashcards</label>
         </div>
         <div class="single-column">
             <div class="section" id="terms-section">
@@ -525,8 +528,14 @@
 
                 <div class="controls">
                     <div class="row-1">
-                        <button onclick="flipCard()" class="secondary">gira la card</button>
-                        <button onclick="shuffleCards()">dammi una card a caso</button>
+                        <div class="button-container">
+                            <button onclick="flipCard()" class="secondary">gira la card</button>
+                            <span class="key-hint">tasto: spacebar</span>
+                        </div>
+                        <div class="button-container">
+                            <button onclick="shuffleCards()">mostra una card a caso</button>
+                            <span class="key-hint">tasto: enter</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -536,28 +545,13 @@
     <script>
         const flashcards = [
             {
-                term: "component",
-                definition: "una sottoparte di una UI. per esempio il form di login",
-                url: ""
+                term: "accordions",
+                definition: "una componente grafica che permette di espandere e comprimere sezioni di una UI",
+                url: "https://balsamiq.com/learn/ui-control-guidelines/accordions/"
             },
             {
-                term: "mode",
-                definition: "in italiano 'modalità'; una UI presenta un mode quando un controllo, per esempio un bottone, fa due cose diverse a seconda dello stato della UI",
-                url: "https://en.wikipedia.org/wiki/Mode_(user_interface)"
-            },
-            {
-                term: "wireframe",
-                definition: "uno sketch di una UI caratterizzato da frames che catturano istanti nel tempo della UI, collegati da frecce che rappresentano gli eventi che modificano lo stato della UI",
-                url: "https://balsamiq.com/learn/articles/what-are-wireframes/"
-            },
-            {
-                term: "bold",
-                definition: "Grassetto",
-                url: ""
-            },
-            {
-                term: "layer",
-                definition: "la grafica di una UI può essere pensata come un dolce millefoglie",
+                term: "animation",
+                definition: "animazione: un movimento o un effetto grafico che si verifica in una UI",
                 url: ""
             },
             {
@@ -566,8 +560,53 @@
                 url: ""
             },
             {
+                term: "bold",
+                definition: "Grassetto",
+                url: ""
+            },
+            {
+                term: "breadcrumb",
+                definition: "una componente grafica di navigazione che come i pezzetti di pane nella favola di Hansel e Gretel per di ritornare da dove si è venuti",
+                url: "https://balsamiq.com/learn/ui-control-guidelines/breadcrumbs/"
+            },
+            {
+                term: "call to action (CTA)",
+                definition: "un bottone che invita l'utente a fare qualcosa. 'primary CTA' è il bottone principale di una UI, 'secondary CTA' è il bottone secondario",
+                url: ""
+            },
+            {
+                term: "component",
+                definition: "una sottoparte di una UI. per esempio il form di login",
+                url: ""
+            },
+            {
                 term: "consistency",
-                definition: "in italiano 'coerenza' visiva e funzionale; una delle euristiche per disegnare una UI usabile", 
+                definition: "in italiano 'coerenza' visiva e funzionale; una delle euristiche per disegnare una UI usabile",
+                url: ""
+            },
+            {
+                term: "device",
+                definition: "in italiano 'dispositivo', per esempio un cellulare, un citofono, un notebook",
+                url: ""
+            },
+            {
+                term: "dialog",
+                definition: "finestra che appare sopra una UI per mostrare un messaggio, per esempio una finestra di dialogo per un messaggio di errore",
+                url: "https://m3.material.io/components/dialogs/overview"
+            },
+            {
+                term: "dropdown",
+                definition: "componente grafico che permette di selezionare un valore da una lista",
+                url: "https://balsamiq.com/learn/ui-control-guidelines/dropdown-menus/"
+            },
+            {
+                term: "empty state",
+                definition: "quando una componente UI non contiene elementi, per esempio un carrello degli acquisti senza prodotti, si dice che lo stato (state) della UI è vuoto (empty)",
+                url: "https://balsamiq.com/learn/ui-control-guidelines/empty-states/"
+            },
+            {
+                term: "faq",
+                definition: "domande frequenti, una sezione di un sito web che contiene le domande più frequenti degli utenti con le rispettive risposte",
                 url: ""
             },
             {
@@ -576,23 +615,33 @@
                 url: ""
             },
             {
-                term: "pointer",
-                definition: "il simbolo del cursore del mouse che assomiglia a una mano con l'indice che indica",
-                url: "https://www.w3schools.com/cssref/pr_class_cursor.php"
+                term: "fold",
+                definition: "il bordo basso della finestra di visualizzazione di una UI, un'espressione ricorrente è 'above the fold' che indica la parte di una UI che è visibile senza dover scorrere",
+                url: "https://en.wikipedia.org/wiki/Above_the_fold"
             },
             {
-                term: "device",
-                definition: "in italiano 'dispositivo', per esempio un cellulare, un citofono, un notebook",
+                term: "font",
+                definition: "il tipo di carattere usato in una UI",
                 url: ""
             },
             {
-                term: "tooltip",
-                definition: "suggerimento o spiegazione di attraverso un piccolo popup che si apre di solito vicino a una label ",
-                url: "https://balsamiq.com/learn/ui-control-guidelines/tooltips-popovers/"
+                term: "form",
+                definition: "componente grafico che permette di inserire dati",
+                url: ""
             },
             {
-                term: "low fidelity",
-                definition: "in italiano 'bassa fedeltà', che può essere intesa come grafica 'brutta' oppure come 'poco dettagliata' di un prototipo / wireframe / sketch",
+                term: "framework",
+                definition: "codice di base, che usi come punto di partenza per sviluppare un programma seguendo certe convenzioni. per esempio React o Angular o per Bootstrap",
+                url: "https://react.dev/"
+            },
+            {
+                term: "hamburger menu",
+                definition: "componente grafico di navigazione che permette di navigare tra diverse sezioni di una UI. nasce come componente per UI mobile",
+                url: "https://en.wikipedia.org/wiki/Hamburger_button"
+            },
+            {
+                term: "header",
+                definition: "la parte superiore di una UI, se prendiamo il browser come esempio, la parte dove c'è l'indirizzo web e le funzioni di navigazione",
                 url: ""
             },
             {
@@ -606,14 +655,119 @@
                 url: ""
             },
             {
+                term: "italic",
+                definition: "corsivo",
+                url: ""
+            },
+            {
+                term: "keyboard",
+                definition: "tastiera",
+                url: ""
+            },
+            {
+                term: "input",
+                definition: "un campo di input è un componente grafico che permette all'utente di inserire dati",
+                url: "https://balsamiq.com/learn/ui-control-guidelines/text-input/"
+            },
+            {
+                term: "layer",
+                definition: "la grafica di una UI può essere pensata come un dolce millefoglie: costruita uno strato sopra l'altro.in Figma, ogni elemento è una layer",
+                url: "https://help.figma.com/hc/en-us/articles/360039831974-View-layers-and-pages-in-the-left-sidebar#layers"
+            },
+            {
+                term: "layout",
+                definition: "la disposizione dei componenti grafici all'interno di una UI: per esempio 'layout' a due colonne indica una disposizione con una colonna principale e una colonna secondaria",
+                url: ""
+            },
+            {
+                term: "low fidelity",
+                definition: "in italiano 'bassa fedeltà', che può essere intesa come grafica 'brutta' oppure come 'poco dettagliata' di un prototipo / wireframe / sketch",
+                url: ""
+            },
+            {
+                term: "mode",
+                definition: "in italiano 'modalità'; una UI presenta un mode quando un controllo, per esempio un bottone, fa due cose diverse a seconda dello stato della UI",
+                url: "https://en.wikipedia.org/wiki/Mode_(user_interface)"
+            },
+            {
+                term: "navigation",
+                definition: "navigazione, il percorso che un utente segue per raggiungere un obiettivo all'interno di un sistema",
+                url: ""
+            },
+            {
+                term: "on blur",
+                definition: "si dice quando un elemento di una UI perde focus, per esempio quando si passa da un campo di input all'altro",
+                url: ""
+            },
+            {
+                term: "palette",
+                definition: "abbreviazione di 'color palette': un insieme di colori che si possono usare per la UI",
+                url: ""
+            },
+            {
+                term: "pointer",
+                definition: "il simbolo del cursore del mouse che assomiglia a una mano con l'indice che indica",
+                url: "https://www.w3schools.com/cssref/pr_class_cursor.php"
+            },
+            {
                 term: "popup",
                 definition: "piccola finestra che appare sopra una UI",
+                url: ""
+            },
+            {
+                term: "sidebar",
+                definition: "la colonna laterale di una UI, per esempio la lista dei file in un editor di testo",
                 url: ""
             },
             {
                 term: "site map",
                 definition: "mappa del sito; un diagramma che rappresenta le pagine di un sito web e la relazione tra esse",
                 url: "https://balsamiq.com/learn/ui-control-guidelines/site-maps/"
+            },
+            {
+                term: "tabs",
+                definition: "componente grafica di navigazione che permette di navigare tra diverse sezioni di una UI. richiama le linguette di uno schedario",
+                url: "https://balsamiq.com/learn/ui-control-guidelines/tabs/"
+            },
+            {
+                term: "tooltip",
+                definition: "suggerimento o spiegazione di attraverso un piccolo popup che si apre di solito vicino a una label",
+                url: "https://balsamiq.com/learn/ui-control-guidelines/tooltips-popovers/"
+            },
+            {
+                term: "underline",
+                definition: "sottolineato",
+                url: ""
+            },
+            {
+                term: "url",
+                definition: "l'indirizzo web di una pagina",
+                url: ""
+            },
+            {
+                term: "user friendly",
+                definition: "intuitivo, semplice da usare",
+                url: ""
+            },
+            {
+                term: "visual design",
+                definition: "l'aspetto estetico di una UI",
+                url: ""
+            },
+            {
+                term: "visual hierarchy",
+                definition: "la gerarchia visiva di una UI sulla base di vari criteri, come il colore, la dimensione, la posizione, che mette in evidenza l'ordine di importanza dei componenti grafici",
+                url: ""
+            },
+            {
+                term: "viewport",
+                definition: "la finestra di visualizzazione di una UI, per esempio 'view mobile' indica la finestra di visualizzazione di un dispositivo mobile",
+                url: ""
+            },
+            {
+                term: "wireframe",
+                definition: "uno sketch di una UI caratterizzato da frames che catturano istanti nel tempo della UI, collegati da frecce che rappresentano gli eventi che modificano lo stato della UI",
+                url: "https://balsamiq.com/learn/articles/what-are-wireframes/"
             }
         ];
 
@@ -624,7 +778,7 @@
         function updateCard() {
             const card = flashcards[currentIndex];
             document.getElementById('term').innerHTML = `<span class="hind-semibold">${card.term}</span>`;
-            document.getElementById('definition').innerHTML = card.definition;
+            document.getElementById('definition').innerHTML = `<span class="hind-semibold">${card.term}<br></span>${card.definition}</p>`;
             
             // Gestione del link approfondisci
             const learnMoreLinks = document.querySelectorAll('.card .learn-more');
@@ -763,13 +917,16 @@
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' || e.code === 'Enter') {
+            if (e.code === 'Space') {
                 e.preventDefault();
                 flipCard();
-            } else if (e.code === 'KeyR') {
+            } else if (e.code === 'Enter') {
+                e.preventDefault();
                 shuffleCards();
             }
         });
+
+   
 
         function toggleView() {
             const checkbox = document.getElementById('toggleFlashcards');
