@@ -131,20 +131,28 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
             box-sizing: border-box;
             border-radius: 15px;
             background: white;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             font-size: 20px;
+
+            /* Pattern quadretti */
+            background-image: 
+                linear-gradient(rgba(222, 225, 230, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(222, 225, 230, 0.4) 1px, transparent 1px);
+                background-size: 20px 20px;
+                background-position: -1px -1px;
+
         }
 
         .card-front {
-            background: #ffffff;
+            /*background: #ffffff;*/
         }
 
         .card-back {
-            background: #ffffff;
+            /*background: #ffffff;*/
             transform: rotateX(180deg);
             font-size: 18px;
             line-height: 1.4;
@@ -189,15 +197,16 @@
         }
 
         .terms-list li {
-            background: white;
+            /*background: white;*/
             padding: 16px;
             margin-bottom: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            /*border-radius: 8px;*/
+            /*box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             gap: 12px;
+            border-bottom: 1px solid #E2E2E9;
         }
 
         .terms-list {
@@ -282,10 +291,7 @@
                 width: 100%;
             }
 
-            .card-face {
-                font-size: 18px;
-                padding: 16px;
-            }
+            
 
             /* Ottimizzazione bottoni */
             .controls {
@@ -561,7 +567,7 @@
             },
             {
                 term: "bold",
-                definition: "Grassetto",
+                definition: "grassetto",
                 url: ""
             },
             {
