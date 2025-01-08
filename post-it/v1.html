@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-it</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .postit {
+            cursor: move;
+            user-select: none;
+            position: absolute;
+        }
+        .postit:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <div id="postitContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="postit bg-yellow-200 p-4 rounded shadow-lg transform transition-all duration-200">
+                <textarea class="w-full h-32 bg-transparent border-none resize-none focus:outline-none" placeholder="Type your note here..."></textarea>
+                <button class="mt-2 text-gray-600 hover:text-red-600">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.postit').forEach(postit => {
+            postit.addEventListener('mousedown', function(e) {
+                let shiftX = e.clientX - postit.getBoundingClientRect().left;
+                let shiftY = e.clientY - postit.getBoundingClientRect().top;
+
+                postit.style.position = 'absolute';
+                postit.style.zIndex = 1000;
+                document.body.append(postit);
+
+                function moveAt(pageX, pageY) {
+                    postit.style.left = pageX - shiftX + 'px';
+                    postit.style.top = pageY - shiftY + 'px';
+                }
+
+                function onMouseMove(event) {
+                    moveAt(event.pageX, event.pageY);
+                }
+
+                document.addEventListener('mousemove', onMouseMove);
+
+                document.addEventListener('mouseup', function() {
+                    document.removeEventListener('mousemove', onMouseMove);
+                }, { once: true });
+            });
+
+            postit.ondragstart = function() {
+                return false;
+            };
+        });
+    </script>
+</body>
+</html>

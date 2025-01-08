@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .input-section, .output-section {
+            flex: 1;
+        }
+
+        textarea {
+            width: 90%;
+            height: 300px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-family: monospace;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .tree-node {
+            margin: 5px 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tree-node.has-children {
+            text-decoration: underline;
+            color: #2c3e50;
+        }
+
+        .tree-node.has-children:hover {
+            color: #007bff;
+        }
+
+        .children-container {
+            display: none;
+            margin-left: 20px;
+        }
+
+        .children-container.visible {
+            display: block;
+        }
+
+        /* Animazione per l'espansione */
+        .children-container {
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
+        }
+
+        .children-container.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tree Generator</h1>
+    
+    <div class="container">
+        <div class="input-section">
+            <h2>Input</h2>
+            <textarea id="inputText">home
+  everyday banking
+    view accounts
+      checking
+      savings
+      joint
+      family
+    make a payment
+    transfer money
+    manage upcoming payments
+  cards
+    manage your cards
+    apply for a credit card
+    report card lost or stolen</textarea>
+            <button onclick="generateTree()">Genera Tree</button>
+        </div>
+        
+        <div class="output-section">
+            <h2>Output</h2>
+            <div id="outputContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        class TreeNode {
+            constructor(value) {
+                this.value = value;
+                this.children = [];
+            }
+
+            hasChildren() {
+                return this.children.length > 0;
+            }
+        }
+
+        function parseText(text) {
+            const lines = text.split('\n');
+            const root = new TreeNode(null);
+            const stack = [{ node: root, indent: -1 }];
+
+            lines.forEach(line => {
+                const content = line.trimEnd();
+                const indent = content.search(/\S/);
+                const value = content.trim();
+
+                if (indent === -1) return;
+
+                const node = new TreeNode(value);
+
+                while (stack.length > 1 && stack[stack.length - 1].indent >= indent) {
+                    stack.pop();
+                }
+
+                stack[stack.length - 1].node.children.push(node);
+                stack.push({ node, indent });
+            });
+
+            return root.children[0];
+        }
+
+        function createTreeElement(node) {
+            if (!node) return null;
+
+            const container = document.createElement('div');
+            container.classList.add('node-container');
+
+            // Crea il nodo cliccabile
+            const nodeElement = document.createElement('div');
+            nodeElement.classList.add('tree-node');
+            nodeElement.textContent = node.value;
+            
+            if (node.hasChildren()) {
+                nodeElement.classList.add('has-children');
+            }
+
+            // Contenitore per i figli
+            const childrenContainer = document.createElement('div');
+            childrenContainer.classList.add('children-container');
+
+            // Aggiungi evento click solo se ha figli
+            if (node.hasChildren()) {
+                nodeElement.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Previeni il bubbling
+                    childrenContainer.classList.toggle('visible');
+                });
+
+                // Crea elementi per ogni figlio
+                node.children.forEach(child => {
+                    const childElement = createTreeElement(child);
+                    if (childElement) {
+                        childrenContainer.appendChild(childElement);
+                    }
+                });
+            }
+
+            container.appendChild(nodeElement);
+            container.appendChild(childrenContainer);
+            return container;
+        }
+
+        function generateTree() {
+            const inputText = document.getElementById('inputText').value;
+            const outputContainer = document.getElementById('outputContainer');
+            outputContainer.innerHTML = '';
+
+            const tree = parseText(inputText);
+            const treeElement = createTreeElement(tree);
+            
+            if (treeElement) {
+                outputContainer.appendChild(treeElement);
+            }
+        }
+    </script>
+</body>
+</html>

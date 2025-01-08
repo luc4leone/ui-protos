@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Pensiero divergente</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: #fafafa;
+        font-family: 'Hind', sans-serif;
+        font-size: 1.1em;
+        letter-spacing: 0.01em;
+    }
+
+    h1 {
+        margin-top: 16px;
+    }
+
+    .container {
+        margin: 0 auto;  /* Centra orizzontalmente */
+        max-width: 960px;  /* Larghezza massima su desktop */
+        padding: 0 20px;  /* Padding laterale per evitare che il contenuto tocchi i bordi */
+        width: 100%;  /* Occupa tutta la larghezza disponibile */
+    }
+
+    .text {
+        column-count: 2;
+        column-gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .grid {
+        display: grid;
+        gap: 20px;  /* Spazio tra le colonne */
+        grid-template-columns: repeat(3, 1fr);  /* 3 colonne di uguale larghezza */
+        width: 100%;
+    }
+    img {
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: auto;  /* Mantiene le proporzioni */
+        max-width: 100%;  /* Si adatta alla larghezza della colonna */
+        width: 100%;  /* Occupa tutta la larghezza disponibile */
+    }
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 12px;  /* Padding ridotto su mobile */
+        }
+        .grid {
+            grid-template-columns: repeat(2, 1fr);  /* 2 colonne su mobile */
+            gap: 12px;  /* Gap ridotto su mobile */
+        }
+        .text {
+            column-count: 1;
+        }
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>Pensiero divergente</h1>
+        <div class="text">
+            <p>Quando guardo questi sketch di sedie di Munari resto sempre sorpreso dal numero di varianti.</p>
+            <p>Quando inizio a sketchare una soluzione, se non è buona la prima, nel 99% dei casi è buona la seconda. Difficile che mi venga voglia di fare una terza.</p>
+            <p>Mi viene in mente quello che diceva Paul Rand: "Quasi sempre la mia prima idea è la migliore". Mi sono accorto che anche per me è così.</p>
+            <p>Se è così, allora perché disegnare la seconda e la terza e così via? Perché non fermarsi alla prima? Be la risposta è semplice: sai d'istinto che è buona la prima, ma validi l'istinto solo disegnando le altre.</p>
+        </div>
+        <div class="grid">
+            <img src="img-sedie/JPEG image-0896E0937CE4-1.jpg" alt="sedie">
+            <img src="img-sedie/JPEG image-0896E0937CE4-2.jpg" alt="sedie">
+            <img src="img-sedie/JPEG image-0896E0937CE4-3.jpg" alt="sedie">
+            <img src="img-sedie/JPEG image-0896E0937CE4-4.jpg" alt="sedie">
+            <img src="img-sedie/JPEG image-0896E0937CE4-5.jpg" alt="sedie">
+            <img src="img-sedie/JPEG image-0896E0937CE4-6.jpg" alt="sedie">
+            <img src="img-sedie/JPEG image-0896E0937CE4-7.jpg" alt="sedie">
+        </div>
+    </div>
+</body>
+</html>
